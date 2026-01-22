@@ -16,27 +16,50 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(m => m.Categoria)
+        <label>Categoría</label>
         @Html.DropDownListFor(m => m.Categoria,
-            new SelectList(new[] { "apagón", "intermitente", "poste caído" }),
-            "-- Seleccione categoría --", new { @class = "form-control" })
+            new SelectList(new[]
+            {
+                "Apagón",
+                "Intermitente",
+                "Poste caído",
+                "Luminaria dañada",
+                "Cable expuesto",
+                "Otro"
+            }),
+            "-- Seleccione categoría --",
+            new { @class = "form-control" })
     </div>
 
     <div class="form-group">
-        <label>Foto</label>
+        <label>Explique el problema (si eligió "Otro")</label>
+        @Html.TextAreaFor(m => m.OtraCategoria, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Parroquia (Quito)</label>
+        @Html.DropDownListFor(m => m.Parroquia,
+            new SelectList(new[]
+            {
+                "Centro Histórico","La Mariscal","Iñaquito","Chillogallo","Carcelén",
+                "Cotocollao","Calderón","Guamaní","La Ecuatoriana","Quitumbe",
+                "San Bartolo","La Magdalena","San Roque","Pomasqui","Tumbaco",
+                "Cumbayá","Pifo","Puembo","Tababela","Conocoto"
+            }),
+            "-- Seleccione parroquia --",
+            new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Código Postal</label>
+        @Html.TextBoxFor(m => m.CodigoPostal, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Foto (opcional)</label>
         <input type="file" name="foto" class="form-control" />
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.Latitud)
-        @Html.TextBoxFor(m => m.Latitud, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Longitud)
-        @Html.TextBoxFor(m => m.Longitud, new { @class = "form-control" })
-    </div>
-
-    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="submit" class="btn btn-primary">Guardar Reporte</button>
     @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-secondary" })
 }

@@ -8,14 +8,15 @@
 
 <p>
     @Html.ActionLink("Registrar nueva", "Create", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Volver al Menú", "Index", "Home", null, new { @class = "btn btn-secondary" })
 </p>
 
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>Tipo</th>
-            <th>Latitud</th>
-            <th>Longitud</th>
+            <th>Código</th>
+            <th>Altura del Poste (m)</th>
             <th>Potencia</th>
             <th>Panel Solar</th>
             <th>Estado</th>
@@ -28,19 +29,17 @@
         {
             <tr>
                 <td>@item.Tipo</td>
-                <td>@item.Latitud</td>
-                <td>@item.Longitud</td>
+                <td>@item.CodigoLuminaria</td>
+                <td>@item.AlturaPoste</td>
                 <td>@item.Potencia W</td>
                 <td>@(item.TienePanelSolar ? "Sí" : "No")</td>
                 <td>@item.Estado</td>
                 <td>
-                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-sm" }) |
-                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })
                     @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-

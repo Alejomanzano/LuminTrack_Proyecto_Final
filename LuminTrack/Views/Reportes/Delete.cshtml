@@ -14,8 +14,8 @@
         <dt>Categoría:</dt>
         <dd>@Model.Categoria</dd>
 
-        <dt>Fecha:</dt>
-        <dd>@Model.Fecha</dd>
+        <dt>Fecha y hora:</dt>
+        <dd>@Model.FechaCreacion</dd>
 
         <dt>Estado:</dt>
         <dd>@Model.Estado</dd>
@@ -34,11 +34,11 @@
     </dl>
 </div>
 
-@using (Html.BeginForm("DeleteConfirmed", "Reportes", FormMethod.Post))
+@using (Html.BeginForm("Delete", "Reportes", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
 
     <button type="submit" class="btn btn-danger">Eliminar</button>
-    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary" })
+    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary ms-2" })
 }

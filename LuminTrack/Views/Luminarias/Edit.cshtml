@@ -12,18 +12,13 @@
     @Html.HiddenFor(m => m.Id)
 
     <div class="form-group">
+        @Html.LabelFor(m => m.CodigoLuminaria)
+        @Html.TextBoxFor(m => m.CodigoLuminaria, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(m => m.Tipo)
         @Html.TextBoxFor(m => m.Tipo, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Latitud)
-        @Html.TextBoxFor(m => m.Latitud, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Longitud)
-        @Html.TextBoxFor(m => m.Longitud, new { @class = "form-control" })
     </div>
 
     <div class="form-group">
@@ -32,7 +27,12 @@
     </div>
 
     <div class="form-group">
-        <label>¿Tiene Panel Solar?</label>
+        @Html.LabelFor(m => m.AlturaPoste)
+        @Html.TextBoxFor(m => m.AlturaPoste, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>¿Tiene Panel Solar?</label><br />
         @Html.CheckBoxFor(m => m.TienePanelSolar)
     </div>
 

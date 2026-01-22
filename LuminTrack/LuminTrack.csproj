@@ -166,11 +166,52 @@
     <Compile Include="Migrations\202601200615539_AddFechaYFotoOrden.Designer.cs">
       <DependentUpon>202601200615539_AddFechaYFotoOrden.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202601220343458_UpdateReporteModel.cs" />
+    <Compile Include="Migrations\202601220343458_UpdateReporteModel.Designer.cs">
+      <DependentUpon>202601220343458_UpdateReporteModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601220407048_AddUbicacionReporte.cs" />
+    <Compile Include="Migrations\202601220407048_AddUbicacionReporte.Designer.cs">
+      <DependentUpon>202601220407048_AddUbicacionReporte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601220413113_UpdateReporteCampos.cs" />
+    <Compile Include="Migrations\202601220413113_UpdateReporteCampos.Designer.cs">
+      <DependentUpon>202601220413113_UpdateReporteCampos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601220423146_AddCategoriaOtroReporte.cs" />
+    <Compile Include="Migrations\202601220423146_AddCategoriaOtroReporte.Designer.cs">
+      <DependentUpon>202601220423146_AddCategoriaOtroReporte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601220437504_UpdateReporteUbicacion.cs" />
+    <Compile Include="Migrations\202601220437504_UpdateReporteUbicacion.Designer.cs">
+      <DependentUpon>202601220437504_UpdateReporteUbicacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601220534104_UpdateLuminariaModel.cs" />
+    <Compile Include="Migrations\202601220534104_UpdateLuminariaModel.Designer.cs">
+      <DependentUpon>202601220534104_UpdateLuminariaModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601220555103_Inicial1.cs" />
+    <Compile Include="Migrations\202601220555103_Inicial1.Designer.cs">
+      <DependentUpon>202601220555103_Inicial1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601220602571_Inicial2.cs" />
+    <Compile Include="Migrations\202601220602571_Inicial2.Designer.cs">
+      <DependentUpon>202601220602571_Inicial2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601220649501_AjusteUsuario.cs" />
+    <Compile Include="Migrations\202601220649501_AjusteUsuario.Designer.cs">
+      <DependentUpon>202601220649501_AjusteUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601220700570_Inicial3.cs" />
+    <Compile Include="Migrations\202601220700570_Inicial3.Designer.cs">
+      <DependentUpon>202601220700570_Inicial3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\PasswordHelper.cs" />
     <Compile Include="Models\AppDbContext.cs" />
     <Compile Include="Models\Luminaria.cs" />
     <Compile Include="Models\OrdenTrabajo.cs" />
+    <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\Reporte.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -254,6 +295,9 @@
     <Content Include="Views\Ordenes\MisOrdenes.cshtml" />
     <Content Include="Views\Tecnico\Actualizar.cshtml" />
     <Content Include="Views\Ordenes\Actualizar.cshtml" />
+    <Content Include="Views\Usuarios\OlvidoPassword.cshtml" />
+    <Content Include="Views\Usuarios\ResetPassword.cshtml" />
+    <Content Include="Views\Usuarios\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -308,6 +352,36 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202601200615539_AddFechaYFotoOrden.resx">
       <DependentUpon>202601200615539_AddFechaYFotoOrden.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601220343458_UpdateReporteModel.resx">
+      <DependentUpon>202601220343458_UpdateReporteModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601220407048_AddUbicacionReporte.resx">
+      <DependentUpon>202601220407048_AddUbicacionReporte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601220413113_UpdateReporteCampos.resx">
+      <DependentUpon>202601220413113_UpdateReporteCampos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601220423146_AddCategoriaOtroReporte.resx">
+      <DependentUpon>202601220423146_AddCategoriaOtroReporte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601220437504_UpdateReporteUbicacion.resx">
+      <DependentUpon>202601220437504_UpdateReporteUbicacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601220534104_UpdateLuminariaModel.resx">
+      <DependentUpon>202601220534104_UpdateLuminariaModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601220555103_Inicial1.resx">
+      <DependentUpon>202601220555103_Inicial1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601220602571_Inicial2.resx">
+      <DependentUpon>202601220602571_Inicial2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601220649501_AjusteUsuario.resx">
+      <DependentUpon>202601220649501_AjusteUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601220700570_Inicial3.resx">
+      <DependentUpon>202601220700570_Inicial3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

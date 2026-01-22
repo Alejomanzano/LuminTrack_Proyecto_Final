@@ -9,7 +9,14 @@
 @using (Html.BeginForm("Edit", "Reportes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+
     @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Parroquia)
+    @Html.HiddenFor(m => m.CodigoPostal)
+    @Html.HiddenFor(m => m.UsuarioEmail)
+    @Html.HiddenFor(m => m.FechaCreacion)
+    @Html.HiddenFor(m => m.Estado)
+    @Html.HiddenFor(m => m.PrioridadIA)
 
     <div class="form-group">
         @Html.LabelFor(m => m.Descripcion)
@@ -19,8 +26,9 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Categoria)
         @Html.DropDownListFor(m => m.Categoria,
-            new SelectList(new[] { "apagón", "intermitente", "poste caído" }, Model.Categoria),
-            "-- Seleccione categoría --", new { @class = "form-control" })
+            new SelectList(new[] { "Apagón", "Intermitente", "Poste caído" }, Model.Categoria),
+            "-- Seleccione categoría --",
+            new { @class = "form-control" })
     </div>
 
     <div class="form-group">
@@ -38,16 +46,6 @@
     <div class="form-group">
         <label>Nueva Foto (opcional)</label>
         <input type="file" name="foto" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Latitud)
-        @Html.TextBoxFor(m => m.Latitud, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Longitud)
-        @Html.TextBoxFor(m => m.Longitud, new { @class = "form-control" })
     </div>
 
     <button type="submit" class="btn btn-primary">Guardar</button>

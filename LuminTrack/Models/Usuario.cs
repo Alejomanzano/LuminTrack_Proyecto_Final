@@ -11,22 +11,16 @@ namespace LuminTrack.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string Nombre { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string Apellido { get; set; }
-
-        [Required]
-        [StringLength(100)]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(200)]
         public string PasswordHash { get; set; }
 
         [Required]
-        public string Rol { get; set; } // Administrador, Tecnico, Ciudadano
+        public string Rol { get; set; }
+
+        
+
+        public DateTime FechaRegistro { get; set; } = DateTime.Now;
     }
 }

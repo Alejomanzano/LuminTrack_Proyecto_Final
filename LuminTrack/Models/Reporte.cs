@@ -10,31 +10,34 @@ namespace LuminTrack.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        public DateTime Fecha { get; set; } = DateTime.Now;
+        public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
         [Required]
         [StringLength(500)]
         public string Descripcion { get; set; }
 
         [Required]
-        public string Categoria { get; set; }  // apagón, intermitente, poste caído
+        public string Categoria { get; set; }
+
+        // SOLO si Categoria = "Otros"
+        [StringLength(300)]
+        public string OtraCategoria { get; set; }
+
+        [Required]
+        public string Parroquia { get; set; }
+
+        [Required]
+        [StringLength(10)]
+        public string CodigoPostal { get; set; }
 
         public string FotoURL { get; set; }
 
-        [Required]
-        public float Latitud { get; set; }
-
-        [Required]
-        public float Longitud { get; set; }
-
         public int PrioridadIA { get; set; } = 0;
 
-        [Required]
         public string Estado { get; set; } = "Enviado";
 
-        [Required]
-        [StringLength(100)]
+        
         public string UsuarioEmail { get; set; }
+
     }
 }

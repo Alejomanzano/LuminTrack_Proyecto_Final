@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -54,25 +55,50 @@ namespace LuminTrack.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Reporte reporte)
+        public ActionResult Create(Reporte reporte, HttpPostedFileBase foto)
         {
-            if (Session["Rol"] == null)
+            if (Session["Rol"] == null || Session["Email"] == null)
                 return RedirectToAction("Login", "Usuarios");
 
-            reporte.UsuarioEmail = User.Identity.Name;
+            reporte.UsuarioEmail = Session["Email"].ToString();
+            reporte.FechaCreacion = DateTime.Now;
 
-            if (ModelState.IsValid)
+            if (reporte.Categoria == "Otro" &&
+                string.IsNullOrWhiteSpace(reporte.OtraCategoria))
             {
-                db.Reportes.Add(reporte);
-                db.SaveChanges();
-
-                if (EsCiudadano())
-                    return RedirectToAction("MisReportes");
-
-                return RedirectToAction("Index");
+                ModelState.AddModelError(
+                    "OtraCategoria",
+                    "Debe explicar la categoría cuando selecciona 'Otro'"
+                );
             }
 
-            return View(reporte);
+            if (foto != null && foto.ContentLength > 0)
+            {
+                string carpeta = Server.MapPath("~/Uploads/Reportes/");
+
+                if (!Directory.Exists(carpeta))
+                    Directory.CreateDirectory(carpeta);
+
+                string nombre = Guid.NewGuid() + Path.GetExtension(foto.FileName);
+                string rutaCompleta = Path.Combine(carpeta, nombre);
+
+                foto.SaveAs(rutaCompleta);
+                reporte.FotoURL = "/Uploads/Reportes/" + nombre;
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(reporte);
+            }
+
+            db.Reportes.Add(reporte);
+            db.SaveChanges();
+
+            return RedirectToAction(
+                Session["Rol"].ToString() == "Ciudadano"
+                    ? "MisReportes"
+                    : "Index"
+            );
         }
 
 
@@ -91,19 +117,36 @@ namespace LuminTrack.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Reporte reporte)
+        public ActionResult Edit(Reporte reporte, HttpPostedFileBase foto)
         {
             if (!EsAdmin())
                 return RedirectToAction("Index", "Home");
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(reporte);
+
+            var reporteDB = db.Reportes.Find(reporte.Id);
+            if (reporteDB == null)
+                return HttpNotFound();
+
+            reporteDB.Descripcion = reporte.Descripcion;
+            reporteDB.Categoria = reporte.Categoria;
+
+            if (foto != null && foto.ContentLength > 0)
             {
-                db.Entry(reporte).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                string carpeta = Server.MapPath("~/Uploads/Reportes/");
+                if (!Directory.Exists(carpeta))
+                    Directory.CreateDirectory(carpeta);
+
+                string nombre = Guid.NewGuid() + Path.GetExtension(foto.FileName);
+                string ruta = Path.Combine(carpeta, nombre);
+                foto.SaveAs(ruta);
+
+                reporteDB.FotoURL = "/Uploads/Reportes/" + nombre;
             }
 
-            return View(reporte);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Reportes/Delete/5
@@ -131,11 +174,39 @@ namespace LuminTrack.Controllers
 
         public ActionResult MisReportes()
         {
-            ViewBag.Email = User.Identity.Name;
-            ViewBag.Auth = User.Identity.IsAuthenticated;
+            if (Session["Rol"] == null || Session["Rol"].ToString() != "Ciudadano")
+                return RedirectToAction("Login", "Usuarios");
 
-            var reportes = db.Reportes.ToList();
+            string email = Session["Email"]?.ToString();
+
+            var reportes = db.Reportes
+                .Where(r => r.UsuarioEmail == email)
+                .ToList();
+
             return View(reportes);
         }
+
+        private List<string> ParroquiasQuito()
+        {
+            return new List<string>
+    {
+        "Belisario Quevedo","Carcelén","Centro Histórico","Chillogallo",
+        "Chimbacalle","Cochapamba","Comité del Pueblo","Concepción",
+        "Cotocollao","El Condado","El Inca","Guamaní","Iñaquito",
+        "Itchimbía","Jipijapa","Kennedy","La Argelia","La Concepción",
+        "La Ecuatoriana","La Ferroviaria","La Libertad","La Magdalena",
+        "La Mena","Mariscal Sucre","Ponceano","Puengasí","Quitumbe",
+        "Rumipamba","San Bartolo","San Isidro del Inca","San Juan",
+        "Solanda","Turubamba",
+
+        "Alangasí","Amaguaña","Atahualpa","Calacalí","Calderón",
+        "Checa","Conocoto","Cumbayá","El Quinche","Gualea",
+        "Guangopolo","Llano Chico","Lloa","Mindo","Nanegal",
+        "Nanegalito","Nayón","Nono","Pacto","Perucho",
+        "Pifo","Pintag","Pomasqui","Puéllaro","San Antonio",
+        "San José de Minas","Tababela","Tumbaco","Yaruquí","Zámbiza"
+    };
+        }
+
     }
 }

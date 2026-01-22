@@ -1,9 +1,5 @@
 ﻿@model LuminTrack.Models.Luminaria
 
-@{
-    ViewBag.Title = "Registrar Luminaria";
-}
-
 <h2>Registrar Luminaria</h2>
 
 @using (Html.BeginForm())
@@ -16,13 +12,13 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(m => m.Latitud)
-        @Html.TextBoxFor(m => m.Latitud, new { @class = "form-control" })
+        @Html.LabelFor(m => m.CodigoLuminaria)
+        @Html.TextBoxFor(m => m.CodigoLuminaria, new { @class = "form-control" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(m => m.Longitud)
-        @Html.TextBoxFor(m => m.Longitud, new { @class = "form-control" })
+        @Html.LabelFor(m => m.AlturaPoste)
+        @Html.TextBoxFor(m => m.AlturaPoste, new { @class = "form-control" })
     </div>
 
     <div class="form-group">
@@ -32,13 +28,7 @@
 
     <div class="form-group">
         @Html.Label("¿Tiene Panel Solar?")
-        @Html.DropDownListFor(m => m.TienePanelSolar,
-            new SelectList(new[]
-    {
-                new { Value = true, Text = "Sí" },
-                new { Value = false, Text = "No" }
-                }, "Value", "Text"), null,
-            new { @class = "form-control" })
+        @Html.CheckBoxFor(m => m.TienePanelSolar)
     </div>
 
     <div class="form-group">
@@ -52,7 +42,6 @@
         }), "-- Seleccione Estado --", new { @class = "form-control" })
     </div>
 
-    <button class="btn btn-primary" type="submit">Guardar</button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
     @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-secondary" })
 }
-

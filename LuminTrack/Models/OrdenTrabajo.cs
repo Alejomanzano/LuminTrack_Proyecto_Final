@@ -15,21 +15,11 @@ namespace LuminTrack.Models
 
         [Required]
         public string Estado { get; set; }
-
-        // ✅ FECHA DE CREACIÓN
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
-        // ✅ TÉCNICO ASIGNADO (EMAIL)
         public string TecnicoEmail { get; set; }
-
-        // ❌ NO USAR TecnicoAsignado si no existe
-        // Usa TecnicoEmail en la vista
-
-        // Relaciones opcionales
         public int? ReporteId { get; set; }
         public int? LuminariaId { get; set; }
-
-        // Evidencia
         public string FotoEvidenciaURL { get; set; }
     }
 }

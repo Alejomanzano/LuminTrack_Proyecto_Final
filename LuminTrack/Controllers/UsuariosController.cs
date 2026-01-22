@@ -95,8 +95,7 @@ namespace LuminTrack.Controllers
                 return HttpNotFound();
 
             // Actualizar campos editables
-            usuarioDB.Nombre = usuario.Nombre;
-            usuarioDB.Apellido = usuario.Apellido;
+           
             usuarioDB.Email = usuario.Email;
             usuarioDB.Rol = usuario.Rol;
 
@@ -146,45 +145,49 @@ namespace LuminTrack.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        // LOGIN (OPCIONAL)
+
         public ActionResult Login()
         {
             return View();
         }
 
+
         [HttpPost]
         public ActionResult Login(string email, string password)
         {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                ViewBag.Error = "Ingrese correo y contraseña";
+                return View();
+            }
+
             string hash = PasswordHelper.Hash(password);
 
             var user = db.Usuarios.FirstOrDefault(
                 u => u.Email == email && u.PasswordHash == hash
             );
 
-            if (user != null)
+            if (user == null)
             {
-                FormsAuthentication.SetAuthCookie(user.Email, false);
-                Session["Rol"] = user.Rol;
-                Session["Email"] = user.Email;
-
-                if (user.Rol == "Administrador")
-                {
-                    return RedirectToAction("Index", "Admin");
-                }
-                else if (user.Rol == "Ciudadano")
-                {
-                    return RedirectToAction("Index", "Ciudadano");
-                }
-                else if (user.Rol == "Tecnico")
-                {
-                    return RedirectToAction("Index", "Tecnico");
-                }
-
-                return RedirectToAction("Index", "Home");
+                ViewBag.Error = "Correo o contraseña incorrectos";
+                return View();
             }
 
-            ViewBag.Error = "Correo o contraseña incorrectos";
-            return View();
+            FormsAuthentication.SetAuthCookie(user.Email, false);
+            Session["Email"] = user.Email;
+            Session["Rol"] = user.Rol;
+
+            switch (user.Rol)
+            {
+                case "Administrador":
+                    return RedirectToAction("Index", "Admin");
+                case "Tecnico":
+                    return RedirectToAction("Index", "Tecnico");
+                case "Ciudadano":
+                    return RedirectToAction("Index", "Ciudadano");
+                default:
+                    return RedirectToAction("Index", "Home");
+            }
         }
 
         // LOGOUT
@@ -194,5 +197,74 @@ namespace LuminTrack.Controllers
             Session.Clear();
             return RedirectToAction("Login");
         }
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            bool existe = db.Usuarios.Any(u => u.Email == model.Email);
+            if (existe)
+            {
+                ModelState.AddModelError("", "El correo ya está registrado");
+                return View(model);
+            }
+
+            Usuario nuevo = new Usuario
+            {
+                Email = model.Email,
+                PasswordHash = PasswordHelper.Hash(model.Password),
+                Rol = "Ciudadano"
+            };
+
+            db.Usuarios.Add(nuevo);
+            db.SaveChanges();
+
+            return RedirectToAction("Login");
+        }
+
+
+        public ActionResult OlvidoPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult OlvidoPassword(string email)
+        {
+            var usuario = db.Usuarios.FirstOrDefault(u => u.Email == email);
+
+            if (usuario == null)
+            {
+                ViewBag.Mensaje = "No existe una cuenta con ese correo.";
+                return View();
+            }
+
+            return RedirectToAction("ResetPassword", new { email = email });
+        }
+
+        public ActionResult ResetPassword(string email)
+        {
+            ViewBag.Email = email;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(string email, string nuevaPassword)
+        {
+            var user = db.Usuarios.FirstOrDefault(u => u.Email == email);
+            user.PasswordHash = PasswordHelper.Hash(nuevaPassword);
+            db.SaveChanges();
+
+            return RedirectToAction("Login");
+        }
+
     }
 }

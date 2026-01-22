@@ -69,9 +69,17 @@ namespace LuminTrack.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(OrdenTrabajo orden, HttpPostedFileBase evidencia)
         {
+            if (!EsAdmin())
+                return RedirectToAction("Index", "Home");
+
             if (evidencia != null && evidencia.ContentLength > 0)
             {
-                string ruta = "/Uploads/" + evidencia.FileName;
+                string carpeta = Server.MapPath("~/Uploads");
+                if (!System.IO.Directory.Exists(carpeta))
+                    System.IO.Directory.CreateDirectory(carpeta);
+
+                string nombre = Guid.NewGuid() + System.IO.Path.GetExtension(evidencia.FileName);
+                string ruta = "/Uploads/" + nombre;
                 evidencia.SaveAs(Server.MapPath("~" + ruta));
                 orden.FotoEvidenciaURL = ruta;
             }
@@ -83,6 +91,28 @@ namespace LuminTrack.Controllers
                 return RedirectToAction("Index");
             }
 
+            // 🔥 ESTO ES LO QUE FALTABA 🔥
+            ViewBag.Tecnicos = new SelectList(
+                db.Usuarios.Where(u => u.Rol == "Tecnico"),
+                "Email",
+                "Email",
+                orden.TecnicoEmail
+            );
+
+            ViewBag.Reportes = new SelectList(
+                db.Reportes,
+                "Id",
+                "Descripcion",
+                orden.ReporteId
+            );
+
+            ViewBag.Luminarias = new SelectList(
+                db.Luminarias,
+                "Id",
+                "Tipo",
+                orden.LuminariaId
+            );
+
             return View(orden);
         }
 
@@ -92,7 +122,35 @@ namespace LuminTrack.Controllers
             if (!EsAdmin())
                 return RedirectToAction("Index", "Home");
 
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
             var orden = db.OrdenesTrabajo.Find(id);
+            if (orden == null)
+                return HttpNotFound();
+
+            // 🔹 Llenar dropdowns antes de pasar a la vista
+            ViewBag.Tecnicos = new SelectList(
+                db.Usuarios.Where(u => u.Rol == "Tecnico"),
+                "Email",
+                "Email",
+                orden.TecnicoEmail
+            );
+
+            ViewBag.Reportes = new SelectList(
+                db.Reportes,
+                "Id",
+                "Descripcion",
+                orden.ReporteId
+            );
+
+            ViewBag.Luminarias = new SelectList(
+                db.Luminarias,
+                "Id",
+                "Tipo",
+                orden.LuminariaId
+            );
+
             return View(orden);
         }
 

@@ -3,17 +3,17 @@
 <h2>Detalles de Luminaria</h2>
 
 <dl class="dl-horizontal">
+    <dt>Código:</dt>
+    <dd>@Model.CodigoLuminaria</dd>
+
     <dt>Tipo:</dt>
     <dd>@Model.Tipo</dd>
 
-    <dt>Latitud:</dt>
-    <dd>@Model.Latitud</dd>
-
-    <dt>Longitud:</dt>
-    <dd>@Model.Longitud</dd>
-
     <dt>Potencia:</dt>
     <dd>@Model.Potencia W</dd>
+
+    <dt>Altura del Poste:</dt>
+    <dd>@Model.AlturaPoste m</dd>
 
     <dt>Panel Solar:</dt>
     <dd>@(Model.TienePanelSolar ? "Sí" : "No")</dd>
